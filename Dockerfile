@@ -104,6 +104,12 @@ RUN docker-php-source delete \
     && mkdir -p /user-files \
     && chown www-data:www-data /user-files \
     && chmod +x /filerun/entrypoint.sh 
+# Check if user exists
+RUN if ! id -u ${APACHE_RUN_USER} > /dev/null 2>&1; then \
+	echo "The user ${APACHE_RUN_USER} does not exist, creating..."; \
+	groupadd -f -g ${APACHE_RUN_GROUP_ID} ${APACHE_RUN_GROUP}; \
+	useradd -u ${APACHE_RUN_USER_ID} -g ${APACHE_RUN_GROUP} ${APACHE_RUN_USER}; \
+    fi    
 #Install filerun
 RUN $([ "$TARGETARCH" == "amd64" ] && curl -o /filerun.zip -L 'https://filerun.com/download-latest-docker' || curl -o /filerun.zip -L 'https://filerun.com/download-latest-docker-arm64') \
 	&& unzip -q /filerun.zip -d /var/www/html/ \
