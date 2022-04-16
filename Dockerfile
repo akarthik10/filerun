@@ -105,7 +105,7 @@ RUN docker-php-source delete \
     && chown www-data:www-data /user-files \
     && chmod +x /filerun/entrypoint.sh 
 #Install filerun
-RUN $([ "$TARGETARCH" == "amd64" ] && curl -o /filerun.zip -L 'https://filerun.com/download-latest-docker-arm64' || curl -o /filerun.zip -L 'https://filerun.com/download-latest-docker-arm64') \
+RUN $([ "$TARGETARCH" == "amd64" ] && curl -o /filerun.zip -L 'https://filerun.com/download-latest-docker' || curl -o /filerun.zip -L 'https://filerun.com/download-latest-docker-arm64') \
 	&& unzip -q /filerun.zip -d /var/www/html/ \
 	&& cp /filerun/overwrite_install_settings.temp.php /var/www/html/system/data/temp/ \
 	&& mkdir -p /var/www/html/system/data/temp/php_sessions \
