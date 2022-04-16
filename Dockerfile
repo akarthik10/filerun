@@ -105,13 +105,13 @@ RUN apt-get update \
     && chown www-data:www-data /user-files \
     && chmod +x /filerun/entrypoint.sh \
 #Install filerun
-    && $([ "$TARGETARCH" == "amd64" ] && curl -o /filerun.zip -L 'https://filerun.com/download-latest-docker-arm64' || curl -o /filerun.zip -L 'https://filerun.com/download-latest-docker-arm64')
-	&& unzip -q /filerun.zip -d /var/www/html/
-	&& cp /filerun/overwrite_install_settings.temp.php /var/www/html/system/data/temp/
-	&& mkdir -p /var/www/html/system/data/temp/php_sessions
-	&& cp /filerun/.htaccess /var/www/html/
-	&& rm -f /filerun.zip
-	&& chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /var/www/html
+    && $([ "$TARGETARCH" == "amd64" ] && curl -o /filerun.zip -L 'https://filerun.com/download-latest-docker-arm64' || curl -o /filerun.zip -L 'https://filerun.com/download-latest-docker-arm64') \
+	&& unzip -q /filerun.zip -d /var/www/html/ \
+	&& cp /filerun/overwrite_install_settings.temp.php /var/www/html/system/data/temp/ \
+	&& mkdir -p /var/www/html/system/data/temp/php_sessions \
+	&& cp /filerun/.htaccess /var/www/html/ \
+	&& rm -f /filerun.zip \
+	&& chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /var/www/html \
 	&& chown ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /user-files
 ENTRYPOINT ["/filerun/entrypoint.sh"]
 CMD ["/usr/bin/supervisord", "-c", "/filerun/supervisord.conf"]
