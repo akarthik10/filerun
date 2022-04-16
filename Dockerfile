@@ -59,29 +59,29 @@ RUN apt-get update \
     && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
     && docker-php-ext-configure ldap \
     && docker-php-ext-install -j$(nproc) pdo_mysql exif zip gd opcache ldap \
-    && a2enmod rewrite \
+    && a2enmod rewrite 
 # Install ionCube
-    && echo [Install ionCube] \
+RUN echo [Install ionCube] \
     && $([ "$TARGETARCH" == "amd64" ] && curl -o /tmp/ioncube.zip -L https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.zip || curl -o /tmp/ioncube.zip -L https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_aarch64.zip) \
     && PHP_EXT_DIR=$(php-config --extension-dir) \
     && unzip -j /tmp/ioncube.zip ioncube/ioncube_loader_lin_${PHP_VERSION_SHORT}.so -d $PHP_EXT_DIR \
-    && echo "zend_extension=ioncube_loader_lin_${PHP_VERSION_SHORT}.so" >> /usr/local/etc/php/conf.d/00_ioncube_loader_lin_${PHP_VERSION_SHORT}.ini \
+    && echo "zend_extension=ioncube_loader_lin_${PHP_VERSION_SHORT}.so" >> /usr/local/etc/php/conf.d/00_ioncube_loader_lin_${PHP_VERSION_SHORT}.ini
 # Install ImageMagick
-    && echo [Install ImageMagick] \
+RUN echo [Install ImageMagick] \
     && curl -o /tmp/im.tar.gz -L https://download.imagemagick.org/ImageMagick/download/ImageMagick.tar.gz \
     && tar zvxf /tmp/im.tar.gz -C /tmp \
     && cd /tmp/ImageMagick* \
     && ./configure --with-modules \
     && make && make install \
-    && ldconfig /usr/local/lib \
+    && ldconfig /usr/local/lib
 # Install vips
-    && echo [Install vips ${LIBVIPS_VERSION}] \
+RUN echo [Install vips ${LIBVIPS_VERSION}] \
     && curl -o /tmp/vips.tar.gz -L https://github.com/libvips/libvips/releases/download/v${LIBVIPS_VERSION}/vips-${LIBVIPS_VERSION}.tar.gz \
     && tar zvxf /tmp/vips.tar.gz -C /tmp \
     && cd /tmp/vips-${LIBVIPS_VERSION} \
     && ./configure \
     && make && make install \
-    && ldconfig \
+    && ldconfig 
 # Install STL-THUMB
 #     && echo [Install STL-THUMB] \
 #     && curl -o /tmp/stl-thumb.deb -L https://github.com/unlimitedbacon/stl-thumb/releases/download/v0.4.0/stl-thumb_0.4.0_amd64.deb \
@@ -92,20 +92,20 @@ RUN apt-get update \
 #     && tar xvfz /tmp/lo.tar.gz -C /tmp \
 #     && dpkg -i /tmp/LibreOffice_*/DEBS/*.deb \
 # Enable Apache XSendfile
-    && echo [Enable Apache XSendfile] \
+RUN echo [Enable Apache XSendfile] \
     && echo "XSendFile On\nXSendFilePath /user-files" | tee "/etc/apache2/conf-available/filerun.conf" \
-    && a2enconf filerun \
+    && a2enconf filerun 
 #Cleanup \
-    && docker-php-source delete \
+RUN docker-php-source delete \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /tmp/* \
     && mv /filerun/filerun-optimization.ini /usr/local/etc/php/conf.d/ \
     && mkdir -p /user-files \
     && chown www-data:www-data /user-files \
-    && chmod +x /filerun/entrypoint.sh \
+    && chmod +x /filerun/entrypoint.sh 
 #Install filerun
-    && $([ "$TARGETARCH" == "amd64" ] && curl -o /filerun.zip -L 'https://filerun.com/download-latest-docker-arm64' || curl -o /filerun.zip -L 'https://filerun.com/download-latest-docker-arm64') \
+RUN $([ "$TARGETARCH" == "amd64" ] && curl -o /filerun.zip -L 'https://filerun.com/download-latest-docker-arm64' || curl -o /filerun.zip -L 'https://filerun.com/download-latest-docker-arm64') \
 	&& unzip -q /filerun.zip -d /var/www/html/ \
 	&& cp /filerun/overwrite_install_settings.temp.php /var/www/html/system/data/temp/ \
 	&& mkdir -p /var/www/html/system/data/temp/php_sessions \
