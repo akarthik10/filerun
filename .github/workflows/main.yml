@@ -1,10 +1,7 @@
 name: Build, Publish, Deploy
 
-on:
-  push:
-    branches: [main]
-    tags:
-      - 'v*'
+on: 
+  workflow_dispatch:
 
 jobs:
   build-publish:
