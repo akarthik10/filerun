@@ -67,13 +67,20 @@ RUN echo [Install ionCube] \
     && unzip -j /tmp/ioncube.zip ioncube/ioncube_loader_lin_${PHP_VERSION_SHORT}.so -d $PHP_EXT_DIR \
     && echo "zend_extension=ioncube_loader_lin_${PHP_VERSION_SHORT}.so" >> /usr/local/etc/php/conf.d/00_ioncube_loader_lin_${PHP_VERSION_SHORT}.ini
 # Install ImageMagick
-RUN echo [Install ImageMagick] \
-    && curl -o /tmp/im.tar.gz -L https://download.imagemagick.org/ImageMagick/download/ImageMagick.tar.gz \
-    && tar zvxf /tmp/im.tar.gz -C /tmp \
-    && cd /tmp/ImageMagick* \
-    && ./configure --with-modules \
-    && make && make install \
-    && ldconfig /usr/local/lib
+# RUN echo [Install ImageMagick] \
+#     && curl -o /tmp/im.tar.gz -L https://download.imagemagick.org/ImageMagick/download/ImageMagick.tar.gz \
+#     && tar zvxf /tmp/im.tar.gz -C /tmp \
+#     && cd /tmp/ImageMagick* \
+#     && ./configure --with-modules \
+#     && make && make install \
+#     && ldconfig /usr/local/lib
+
+RUN echo [Install ImageMagick (Easy install)] \
+	&& t=$(mktemp) && \
+	&& wget 'https://dist.1-2.dev/imei.sh' -qO "$t" && \
+	&& bash "$t" && \
+	&& rm "$t"
+
 # Install vips
 RUN echo [Install vips ${LIBVIPS_VERSION}] \
     && curl -o /tmp/vips.tar.gz -L https://github.com/libvips/libvips/releases/download/v${LIBVIPS_VERSION}/vips-${LIBVIPS_VERSION}.tar.gz \
