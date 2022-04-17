@@ -54,7 +54,7 @@ RUN apt-get update \
         locales \
         vim \
         supervisor \
-	wget
+	wget \
     && mkdir /var/log/supervisord /var/run/supervisord \
     && docker-php-ext-configure zip \
     && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
