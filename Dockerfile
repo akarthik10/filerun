@@ -66,6 +66,7 @@ RUN echo [Install ionCube] \
     && PHP_EXT_DIR=$(php-config --extension-dir) \
     && unzip -j /tmp/ioncube.zip ioncube/ioncube_loader_lin_${PHP_VERSION_SHORT}.so -d $PHP_EXT_DIR \
     && echo "zend_extension=ioncube_loader_lin_${PHP_VERSION_SHORT}.so" >> /usr/local/etc/php/conf.d/00_ioncube_loader_lin_${PHP_VERSION_SHORT}.ini
+
 # Install ImageMagick
 # RUN echo [Install ImageMagick] \
 #     && curl -o /tmp/im.tar.gz -L https://download.imagemagick.org/ImageMagick/download/ImageMagick.tar.gz \
@@ -76,9 +77,9 @@ RUN echo [Install ionCube] \
 #     && ldconfig /usr/local/lib
 
 RUN echo "[Install ImageMagick (Easy install)]" \
-	&& t=$(mktemp) && \
-	&& wget 'https://dist.1-2.dev/imei.sh' -qO "$t" && \
-	&& bash "$t" && \
+	&& t=$(mktemp) \
+	&& wget 'https://dist.1-2.dev/imei.sh' -qO "$t" \
+	&& bash "$t" \
 	&& rm "$t"
 
 # Install vips
