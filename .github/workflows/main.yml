@@ -13,6 +13,7 @@ jobs:
       - run: |
           curl -o /tmp/filerun.zip -L 'https://filerun.com/download-latest-docker'
           echo "FILERUN_INSTALL_VERSION=`unzip -p /tmp/filerun.zip initial_version.txt`" >> $GITHUB_ENV
+          rm -f /tmp/filerun.zip
 
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v3.x
