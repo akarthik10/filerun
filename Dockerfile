@@ -75,7 +75,7 @@ RUN echo [Install ionCube] \
 #     && make && make install \
 #     && ldconfig /usr/local/lib
 
-RUN echo [Install ImageMagick (Easy install)] \
+RUN echo "[Install ImageMagick (Easy install)]" \
 	&& t=$(mktemp) && \
 	&& wget 'https://dist.1-2.dev/imei.sh' -qO "$t" && \
 	&& bash "$t" && \
@@ -89,6 +89,7 @@ RUN echo [Install vips ${LIBVIPS_VERSION}] \
     && ./configure \
     && make && make install \
     && ldconfig 
+
 # Install STL-THUMB
 #     && echo [Install STL-THUMB] \
 #     && curl -o /tmp/stl-thumb.deb -L https://github.com/unlimitedbacon/stl-thumb/releases/download/v0.4.0/stl-thumb_0.4.0_amd64.deb \
