@@ -8,4 +8,7 @@ if ! id -u ${APACHE_RUN_USER} > /dev/null 2>&1; then
 	useradd -u ${APACHE_RUN_USER_ID} -g ${APACHE_RUN_GROUP} ${APACHE_RUN_USER}
 fi
 
+chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /var/www/html \
+	&& chown ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /user-files
+
 exec "$@"
