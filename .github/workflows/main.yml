@@ -43,6 +43,6 @@ jobs:
           DOCKER_BUILDKIT: 1
         with:
           context: .
-          push: false
+          push: true
           platforms: linux/amd64,linux/arm64
           tags: ${{ env.IMAGE }}
