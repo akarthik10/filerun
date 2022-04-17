@@ -10,13 +10,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - run: |
+          curl -o /tmp/filerun.zip -L 'https://filerun.com/download-latest-docker'
+          echo "FILERUN_INSTALL_VERSION=`unzip -p filerun.zip initial_version.txt`" >> $GITHUB_ENV
 
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v3.x
 
       - name: Set env
         run: |
-          export IMAGE=ghcr.io/test-${{ env.GITHUB_REPOSITORY_OWNER_PART_SLUG }}/${{ env.GITHUB_REPOSITORY_NAME_PART_SLUG }}:${{ env.GITHUB_REF_SLUG }}
+          export IMAGE=ghcr.io/${{ env.GITHUB_REPOSITORY_OWNER_PART_SLUG }}/${{ env.GITHUB_REPOSITORY_NAME_PART_SLUG }}:${{ env.FILERUN_INSTALL_VERSION }}
+          echo "IMAGE=$IMAGE"
           echo "IMAGE=$IMAGE" >> $GITHUB_ENV
       -
         name: Set up QEMU
