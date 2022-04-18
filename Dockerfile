@@ -38,6 +38,7 @@ RUN apt-get update \
         libopenjp2-7-dev \
         libimagequant-dev \
         libmagickcore-dev \
+	libmagickwand-dev \
         libgl1 \
         libraw-dev \
         libraw-bin \
@@ -60,6 +61,8 @@ RUN apt-get update \
     && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
     && docker-php-ext-configure ldap \
     && docker-php-ext-install -j$(nproc) pdo_mysql exif zip gd opcache ldap \
+    && pecl install imagick \
+    && docker-php-ext-enable imagick \
     && a2enmod rewrite 
 # Install ionCube
 RUN echo [Install ionCube] \
