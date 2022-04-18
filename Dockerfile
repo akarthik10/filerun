@@ -128,6 +128,7 @@ RUN $([ "$TARGETARCH" == "amd64" ] && curl -o /filerun.zip -L 'https://filerun.c
 	&& mkdir -p /var/www/html \
 	&& unzip -q /filerun.zip -d /var/www/html/ \
 	&& cp /filerun/overwrite_install_settings.temp.php /var/www/html/system/data/temp/ \
+	&& cp /filerun/autoconfig.php /var/www/html/system/data/ \
 	&& mkdir -p /var/www/html/system/data/temp/php_sessions \
 	&& cp /filerun/.htaccess /var/www/html/ \
 	&& rm -f /filerun.zip \
