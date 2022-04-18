@@ -16,7 +16,7 @@ ENV FR_DB_HOST=db \
     LIBVIPS_VERSION="8.12.1" \
     LIBREOFFICE_VERSION="7.1.8" \
     PHP_VERSION_SHORT="7.4"
-VOLUME ["/var/www/html", "/user-files"]
+VOLUME ["/user-files"]
 COPY ./filerun /filerun
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -122,6 +122,7 @@ RUN if ! id -u ${APACHE_RUN_USER} > /dev/null 2>&1; then \
     fi    
 #Install filerun
 RUN $([ "$TARGETARCH" == "amd64" ] && curl -o /filerun.zip -L 'https://filerun.com/download-latest-docker' || curl -o /filerun.zip -L 'https://filerun.com/download-latest-docker-arm64') \
+	&& mkdir -p /var/www/html
 	&& unzip -q /filerun.zip -d /var/www/html/ \
 	&& cp /filerun/overwrite_install_settings.temp.php /var/www/html/system/data/temp/ \
 	&& mkdir -p /var/www/html/system/data/temp/php_sessions \
