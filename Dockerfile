@@ -122,7 +122,7 @@ RUN if ! id -u ${APACHE_RUN_USER} > /dev/null 2>&1; then \
     fi    
 #Install filerun
 RUN $([ "$TARGETARCH" == "amd64" ] && curl -o /filerun.zip -L 'https://filerun.com/download-latest-docker' || curl -o /filerun.zip -L 'https://filerun.com/download-latest-docker-arm64') \
-	&& mkdir -p /var/www/html
+	&& mkdir -p /var/www/html \
 	&& unzip -q /filerun.zip -d /var/www/html/ \
 	&& cp /filerun/overwrite_install_settings.temp.php /var/www/html/system/data/temp/ \
 	&& mkdir -p /var/www/html/system/data/temp/php_sessions \
