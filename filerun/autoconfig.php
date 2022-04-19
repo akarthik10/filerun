@@ -1,4 +1,3 @@
-
 <?php
 $config['db'] = array (
   'server' => getenv('FR_DB_HOST') ?: 'filerun-mariadb',
