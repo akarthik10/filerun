@@ -20,7 +20,7 @@ jobs:
 
       - name: Set env
         run: |
-          export IMAGE=ghcr.io/${{ env.GITHUB_REPOSITORY_OWNER_PART_SLUG }}/${{ env.GITHUB_REPOSITORY_NAME_PART_SLUG }}:${{ env.FILERUN_INSTALL_VERSION }}
+          export IMAGE=ghcr.io/${{ env.GITHUB_REPOSITORY_OWNER_PART_SLUG }}/${{ env.GITHUB_REPOSITORY_NAME_PART_SLUG }}:v1.${{ env.FILERUN_INSTALL_VERSION }}
           echo "IMAGE=$IMAGE"
           echo "IMAGE=$IMAGE" >> $GITHUB_ENV
       -
