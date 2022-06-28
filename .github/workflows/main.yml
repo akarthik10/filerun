@@ -1,6 +1,8 @@
 name: Build, Publish, Deploy
 
 on: 
+  schedule:
+    - cron: '51 2 1 */1 *'
   workflow_dispatch:
 
 jobs:
