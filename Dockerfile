@@ -66,7 +66,7 @@ RUN apt-get update \
     && a2enmod rewrite 
 # Install ionCube
 RUN echo "[Install ionCube]" \
-    && $([ "$TARGETARCH" == "amd64" ] && curl -o /tmp/ioncube.zip -L https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.zip || curl -o /tmp/ioncube.zip -L https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_aarch64.zip) \
+    && $([ "$TARGETARCH" = "amd64" ] && curl -o /tmp/ioncube.zip -L https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.zip || curl -o /tmp/ioncube.zip -L https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_aarch64.zip) \
     && PHP_EXT_DIR=$(php-config --extension-dir) \
     && unzip -j /tmp/ioncube.zip ioncube/ioncube_loader_lin_${PHP_VERSION_SHORT}.so -d $PHP_EXT_DIR \
     && echo "zend_extension=ioncube_loader_lin_${PHP_VERSION_SHORT}.so" >> /usr/local/etc/php/conf.d/00_ioncube_loader_lin_${PHP_VERSION_SHORT}.ini
@@ -104,10 +104,12 @@ RUN echo "[Install vips ${LIBVIPS_VERSION}]" \
 #     && curl -o /tmp/lo.tar.gz -L https://download.documentfoundation.org/libreoffice/stable/${LIBREOFFICE_VERSION}/deb/x86_64/LibreOffice_${LIBREOFFICE_VERSION}_Linux_x86-64_deb.tar.gz \
 #     && tar xvfz /tmp/lo.tar.gz -C /tmp \
 #     && dpkg -i /tmp/LibreOffice_*/DEBS/*.deb \
+
 # Enable Apache XSendfile
 RUN echo "[Enable Apache XSendfile]" \
     && echo "XSendFile On\nXSendFilePath /user-files" | tee "/etc/apache2/conf-available/filerun.conf" \
     && a2enconf filerun 
+
 #Cleanup \
 RUN docker-php-source delete \
     && apt-get clean \
@@ -117,14 +119,16 @@ RUN docker-php-source delete \
     && mkdir -p /user-files \
     && chown www-data:www-data /user-files \
     && chmod +x /filerun/entrypoint.sh 
+
 # Check if user exists
 RUN if ! id -u ${APACHE_RUN_USER} > /dev/null 2>&1; then \
 	echo "The user ${APACHE_RUN_USER} does not exist, creating..."; \
 	groupadd -f -g ${APACHE_RUN_GROUP_ID} ${APACHE_RUN_GROUP}; \
 	useradd -u ${APACHE_RUN_USER_ID} -g ${APACHE_RUN_GROUP} ${APACHE_RUN_USER}; \
     fi    
+
 #Install filerun
-RUN $([ "$TARGETARCH" == "amd64" ] && curl -o /filerun.zip -L 'https://filerun.com/download-latest-docker' || curl -o /filerun.zip -L 'https://filerun.com/download-latest-docker-arm64') \
+RUN $([ "$TARGETARCH" = "amd64" ] && curl -o /filerun.zip -L 'https://filerun.com/download-latest-docker' || curl -o /filerun.zip -L 'https://filerun.com/download-latest-docker-arm64') \
 	&& mkdir -p /var/www/html \
 	&& unzip -q /filerun.zip -d /var/www/html/ \
 	&& cp /filerun/overwrite_install_settings.temp.php /var/www/html/system/data/temp/ \
