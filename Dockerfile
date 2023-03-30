@@ -65,14 +65,14 @@ RUN apt-get update \
     && docker-php-ext-enable imagick \
     && a2enmod rewrite 
 # Install ionCube
-RUN echo [Install ionCube] \
+RUN echo "[Install ionCube]" \
     && $([ "$TARGETARCH" == "amd64" ] && curl -o /tmp/ioncube.zip -L https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.zip || curl -o /tmp/ioncube.zip -L https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_aarch64.zip) \
     && PHP_EXT_DIR=$(php-config --extension-dir) \
     && unzip -j /tmp/ioncube.zip ioncube/ioncube_loader_lin_${PHP_VERSION_SHORT}.so -d $PHP_EXT_DIR \
     && echo "zend_extension=ioncube_loader_lin_${PHP_VERSION_SHORT}.so" >> /usr/local/etc/php/conf.d/00_ioncube_loader_lin_${PHP_VERSION_SHORT}.ini
 
 # Install ImageMagick
-# RUN echo [Install ImageMagick] \
+# RUN echo "[Install ImageMagick]" \
 #     && curl -o /tmp/im.tar.gz -L https://download.imagemagick.org/ImageMagick/download/ImageMagick.tar.gz \
 #     && tar zvxf /tmp/im.tar.gz -C /tmp \
 #     && cd /tmp/ImageMagick* \
@@ -87,7 +87,7 @@ RUN echo "[Install ImageMagick (Easy install)]" \
 	&& rm "$t"
 
 # Install vips
-RUN echo [Install vips ${LIBVIPS_VERSION}] \
+RUN echo "[Install vips ${LIBVIPS_VERSION}]" \
     && curl -o /tmp/vips.tar.gz -L https://github.com/libvips/libvips/releases/download/v${LIBVIPS_VERSION}/vips-${LIBVIPS_VERSION}.tar.gz \
     && tar zvxf /tmp/vips.tar.gz -C /tmp \
     && cd /tmp/vips-${LIBVIPS_VERSION} \
@@ -105,7 +105,7 @@ RUN echo [Install vips ${LIBVIPS_VERSION}] \
 #     && tar xvfz /tmp/lo.tar.gz -C /tmp \
 #     && dpkg -i /tmp/LibreOffice_*/DEBS/*.deb \
 # Enable Apache XSendfile
-RUN echo [Enable Apache XSendfile] \
+RUN echo "[Enable Apache XSendfile]" \
     && echo "XSendFile On\nXSendFilePath /user-files" | tee "/etc/apache2/conf-available/filerun.conf" \
     && a2enconf filerun 
 #Cleanup \
