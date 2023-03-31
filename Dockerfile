@@ -80,11 +80,11 @@ RUN echo "[Install ionCube]" \
 #     && make && make install \
 #     && ldconfig /usr/local/lib
 
-RUN echo "[Install ImageMagick (Easy install)]" \
-	&& t=$(mktemp) \
-	&& wget 'https://dist.1-2.dev/imei.sh' -qO "$t" \
-	&& bash "$t" \
-	&& rm "$t"
+# RUN echo "[Install ImageMagick (Easy install)]" \
+# 	&& t=$(mktemp) \
+# 	&& wget 'https://dist.1-2.dev/imei.sh' -qO "$t" \
+# 	&& bash "$t" \
+# 	&& rm "$t"
 
 # Install vips
 RUN echo "[Install vips ${LIBVIPS_VERSION}]" \
